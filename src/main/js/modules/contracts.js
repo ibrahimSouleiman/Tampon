@@ -219,6 +219,11 @@
 
         //this function manages the disconnection because if the session expresses the return to the connection page
        isUserConnected($rootScope, $scope, $state);
+        $scope.findAll = function(query){
+        console.log("Yes");
+                        return $http.get(RESTAPISERVER+'/api/users/');
+                    }
+
 
         //Add Title
     	$scope.app.configHeader({back: true, title: 'Add contracts'});
@@ -271,13 +276,13 @@
 
       /*Definition default  Modality*/
       var Modality1= "Les parties s'engagent à préciser les détériorations et/ou modifications de l'objet depuis la signature du contrat 4 jours avant l'échange.";
-      var Modality2="A effectuer ensemble une évaluation  des  objectes à l’échange.";
-      var Modality3="Les parties reconnaissent avoir pris connaissance de toutes informations concernant les Objects "+
-                    " échangé et ne pourront se retourner contre l’ancien propriétaire en cas de problèmes et/ou de "+
-                    " dysfonctionnement futurs. ";
-      var Modality4="A mettre à disposition un classeur contenant les documents utiles (manuels d’utilisation de "+
+      var Modality2="Les parties s'engagent à effectuer ensemble une évaluation des objets lors de l’échange.";
+      var Modality3="Les parties reconnaissent avoir pris connaissance de toutes les informations concernant les objets"+
+                    " échangés et ne pourront se retourner contre l’ancien propriétaire en cas de problèmes et/ou de "+
+                    " dysfonctionnements futurs.";
+      var Modality4="Les parties s'engagent à mettre à disposition un classeur contenant les documents utiles (manuels d’utilisation de "+
                      "l’électronique, des moteurs et de tout autre appareillage ou système requérant un mode "+
-                     "d’utilisation spécifique  ";
+                     "d’utilisation spécifique.";
 
       var Modality5="A mettre à disposition un Objet propre et dans  état indique dans la description conforme à la réglementation de "+
                      "sécurité. ";
@@ -675,42 +680,43 @@ function checkClauses($scope){
 
 	var isOK = true;
 
+console.log($scope.form.title)
 	if ($scope.form.title == null)
 	{
-		$scope.hasName = true;
+		$scope.errorName = true;
 		isOK = false;
 	}
 	else
 	{
-		$scope.hasName = false;
+		$scope.errorName = false;
 
 	}
-
-	if ($scope.parties.length < 0)
+console.log($scope.parties.length )
+	if ($scope.parties.length == 0)
 	{
-		$scope.hasParty = true;
+		$scope.errorParty = true;
 				isOK = false;
 	}
 	else
 	{
-		$scope.hasParty = false;
+		$scope.errorParty = false;
 
 	}
 
-	if ($scope.Exchange.length < 0)
+	if ($scope.Exchange.length == 0)
 	{
-		$scope.hasExchanges = true;
+		$scope.errorExchanges = true;
 				isOK = false;
 	}
 	else
 	{
-		$scope.hasExchanges = false;
+		$scope.errorExchanges = false;
 
 	}
 
-	if ($scope.modality.length < 0)
+	if ($scope.modality.length == 0)
 	{
-		$scope.hasImpModality = true;
+		$scope.errorImpModality = true;
 				isOK = false;
 	}
 	else
@@ -719,14 +725,14 @@ function checkClauses($scope){
 
 	}
 
-	if ($scope.canceled.length < 0)
+	if ($scope.canceled.length == 0)
 	{
-		$scope.hasTermModality = true;
+		$scope.errorTermModality = true;
 				isOK = false;
 	}
 	else
 	{
-		$scope.hasTermModality = false;
+		$scope.errorTermModality = false;
 
 	}
 
