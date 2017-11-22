@@ -1,4 +1,4 @@
-<h2 ng-show="{{action === 'add'}}">Add a new contract</h2>
+</br><h2 ng-show="{{action === 'add'}}">Add a new contract</h2>
 <h2 ng-show="{{action === 'edit'}}">Edit a contract</h2>
 
 <form ng-submit="submit()">
@@ -80,31 +80,122 @@
 					</span>
 				</div>
 				<br/>
+
 				<div class="row">
-					<label for="selectfor" class="col-sm-3 col-md-2">WHEN</label>
+					<label for="addClause" class="col-sm-3 col-md-2">HOW</label>
+					<span class="col-sm-9 col-md-10"><select class="form-control" id="selectfor" ng-model="form.addHow" ng-change="updatehow()" title="For Party" >
+		    		<option value="" selected disabled>Choose an exchange mode</option>
+		    		<option ng-repeat="mode in exchangeModes">{{mode}} </option>
+			    </select></span>
+				</div>
+				<br/>
+				<div class="row" ng-show="delivery">
+					<label for="addClause" class="col-sm-3 col-md-2">User 'from' address</label>
+					<span class="col-sm-9 col-md-10">
+						<input type="text" class="form-control" placeholder="place, address, timelimit..." ng-model="form.addDetails">
+					</span><br/><br/><br/>
+				</div>
+				<div class="row" ng-show="delivery">
+					<label for="addClause" class="col-sm-3 col-md-2">Date of sending  </label>
+					<span class="col-sm-9 col-md-10"><div class='input-group date' id='datetimepicker'>
+						<span class="input-group-addon">
+							<span class="glyphicon glyphicon-calendar"></span>
+						</span>
+						<input type='date' ng-model="form.addWhen" class="form-control" />
+					</div></span><br/><br/><br/>
+				</div>
+				<div class="row" ng-show="delivery">
+					<label for="addClause" class="col-sm-3 col-md-2">Send mode</label>
+					<span class="col-sm-9 col-md-10"><select class="form-control" id="selectfor" ng-model="form.sendmodefrom" ng-change="updateModefrom()" title="For Party" >
+		    		<option value="" selected disabled>Choose an  mode tranmission package</option>
+		    		<option ng-repeat="mode in exchangeModeTranmission">{{mode}} </option>
+			    </select></span><br/><br/><br/>
+				</div>
+				<div class="row" ng-show="delivery && moderecommand">
+					<label for="addClause" class="col-sm-3 col-md-2">Number</label>
+					<span class="col-sm-9 col-md-10">
+						<input type="text" class="form-control" placeholder="place, address, timelimit..." ng-model="form.addDetails">
+					</span><br/><br/><br/>
+				</div>
+				<div class="row" ng-show="delivery">
+					<label for="addClause" class="col-sm-3 col-md-2">User 'to' address</label>
+					<span class="col-sm-9 col-md-10">
+						<input type="text" class="form-control" placeholder="place, address, timelimit..." ng-model="form.addDetails">
+					</span><br/><br/><br/>
+				</div>
+				<div class="row" ng-show="delivery">
+					<label for="addClause" class="col-sm-3 col-md-2">Date of sending  </label>
+					<span class="col-sm-9 col-md-10"><div class='input-group date' id='datetimepicker'>
+						<span class="input-group-addon">
+							<span class="glyphicon glyphicon-calendar"></span>
+						</span>
+						<input type='date' ng-model="form.addWhen" class="form-control" />
+					</div></span><br/><br/><br/>
+				</div>
+				<div class="row" ng-show="delivery">
+					<label for="addClause" class="col-sm-3 col-md-2">Send mode</label>
+					<span class="col-sm-9 col-md-10"><select class="form-control" id="selectfor" ng-model="form.sendmodeto" ng-change="updateModeto()" title="For Party" >
+		    		<option value="" selected disabled>Choose an mode Transmission package</option>
+		    		<option ng-repeat="mode in exchangeModeTranmission">{{mode}} </option>
+			    </select></span><br/><br/><br/>
+				</div>
+				<div class="row" ng-show="delivery && moderecommandto">
+					<label for="addClause" class="col-sm-3 col-md-2">Number</label>
+					<span class="col-sm-9 col-md-10">
+						<input type="text" class="form-control" placeholder="place, address, timelimit..." ng-model="form.addDetails">
+					</span><br/><br/><br/>
+				</div>
+				<div class="row" ng-show="inperson">
+					<label for="addClause" class="col-sm-3 col-md-2">Place of exchange</label>
+					<span class="col-sm-9 col-md-10">
+						<input type="text" class="form-control" placeholder="place, address, timelimit..." ng-model="form.addDetails">
+					</span><br/><br/><br/>
+				</div>
+				<div class="row" ng-show="inperson">
+					<label for="addClause" class="col-sm-3 col-md-2">When exchange  </label>
+					<span class="col-sm-9 col-md-10"><div class='input-group date' id='datetimepicker'>
+						<span class="input-group-addon">
+							<span class="glyphicon glyphicon-calendar"></span>
+						</span>
+						<input type='date' ng-model="form.addWhen" class="form-control" />
+					</div></span><br/><br/><br/>
+				</div>
+				<div class="row" ng-show="electronically">
+					<label for="addClause" class="col-sm-3 col-md-2">Email </label>
+					<span class="col-sm-9 col-md-10">
+						<input type="text" class="form-control" placeholder="place, address, timelimit..." ng-model="form.addDetails">
+					</span><br/><br/><br/>
+				</div>
+				<div class="row" ng-show="electronically">
+					<label for="addClause" class="col-sm-3 col-md-2">When of sending  </label>
+					<span class="col-sm-9 col-md-10"><div class='input-group date' id='datetimepicker'>
+						<span class="input-group-addon">
+							<span class="glyphicon glyphicon-calendar"></span>
+						</span>
+						<input type='date' ng-model="form.addWhen" class="form-control" />
+					</div></span><br/><br/><br/>
+				</div>
+				<div class="row"  ng-show="electronically">
+					<label for="addClause" class="col-sm-3 col-md-2">Email</label>
+					<span class="col-sm-9 col-md-10">
+						<input type="text" class="form-control" placeholder="place, address, timelimit..." ng-model="form.addDetails">
+					</span><br/><br/><br/>
+				</div>
+				<div class="row" ng-show="electronically">
+					<label for="addClause" class="col-sm-3 col-md-2">When of sending  </label>
 					<span class="col-sm-9 col-md-10"><div class='input-group date' id='datetimepicker'>
 						<span class="input-group-addon">
 							<span class="glyphicon glyphicon-calendar"></span>
 						</span>
 						<input type='date' ng-model="form.addWhen" class="form-control" />
 					</div></span>
-				</div>
-				<br/>
-				<div class="row">
-					<label for="addClause" class="col-sm-3 col-md-2">HOW</label>
-					<span class="col-sm-9 col-md-10"><select class="form-control" id="selectfor" ng-model="form.addHow" title="For Party" >
-		    		<option value="" selected disabled>Choose an exchange mode</option>
-		    		<option ng-repeat="mode in exchangeModes">{{mode}} </option>
-			    </select></span>
-				</div>
-				<br/>
-				<div class="row">
-					<label for="addClause" class="col-sm-3 col-md-2">DETAILS</label>
-					<span class="col-sm-9 col-md-10">
+				</div><br/><br/><br/>
+				<div class="row"  ng-show="detailhow">
+				<label for="addClause" class="col-sm-3 col-md-2">details</label>
+				<span class="col-sm-9 col-md-10">
 						<input type="text" class="form-control" placeholder="place, address, timelimit..." ng-model="form.addDetails">
-					</span>
+					</span> <br/><br/><br/>
 				</div>
-				<br/>
 				<div class="row">
 					<button type="button" class="btn btn-default col-sm-offset-4 col-md-offset-5 btn btn-secondary col-sm-3 col-md-2" ng-click="updateExchanges()">Add Clause</button>
 				</div>

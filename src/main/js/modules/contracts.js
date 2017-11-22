@@ -349,6 +349,15 @@
 			$scope.exchangeModes[2] = "in person";
 			/***********************************************/
 
+			/****** Initialising the Mode transmission package ******/
+        			$scope.exchangeModeTranmission = [];
+        			$scope.exchangeModeTranmission[0] = "Recommended";
+        			$scope.exchangeModeTranmission[1] = "Normal";
+            /***********************************************/
+
+
+
+
 			/****** Initialising the default implementing modalities ******/
 			$scope.impModalities = [];
 			$scope.impModalities[0] = "Parties must check the items before executing the exchange.";
@@ -395,6 +404,9 @@
 			$scope.validateTermModality = function() {validateTermModality($scope)};
 
 			$scope.updateItems = function() {updateItems($http, $scope)};
+            $scope.updatehow = function() {updatehow($scope)};
+	        $scope.updateModefrom = function() {updateModefrom($scope)};
+	        $scope.updateModeto = function() {updateModeto($scope)};
 			/*******************************************************************/
 
 			/****** Submit button function ******/
@@ -622,6 +634,87 @@ function updateItems($http, $scope){
 	}
 }
 
+
+/****** Function to update the items according to the user selected in the From field ******/
+function updatehow($scope){
+
+
+var choice=$scope.form.addHow;
+var dt="delivery";
+
+console.log("Choix "+choice.length+" R="+(choice.length == 9));
+if(choice.length == 9)
+{
+console.log("1 IF= "+$scope.choice);
+
+$scope.inperson=false;
+$scope.electronically=false;
+$scope.detailhow=true;
+$scope.delivery=true;
+}else if(choice.length == 10)
+{
+console.log("2 IF= "+$scope.choice);
+$scope.delivery=false;
+$scope.electronically=false;
+$scope.inperson=true;
+$scope.detailhow=true;
+
+} else if(choice.length ==15)
+{
+console.log("3 IF= "+$scope.choice);
+$scope.delivery=false;
+$scope.inperson=false;
+$scope.electronically=true;
+$scope.detailhow=true;
+
+}
+
+
+
+}
+
+
+/****** Function to update the items according to the user selected in the From field ******/
+function updateModefrom($scope){
+
+
+var choice=$scope.form.sendmodefrom;
+var dt="delivery";
+
+if(choice.length == 12)
+{
+
+$scope.moderecommand=true;
+
+}else
+{
+$scope.moderecommand=false;
+}
+
+
+
+}
+
+/****** Function to update the items according to the user selected in the From field ******/
+function updateModeto($scope){
+
+
+var choice=$scope.form.sendmodeto;
+var dt="delivery";
+
+if(choice.length == 12)
+{
+
+$scope.moderecommandto=true;
+
+}else
+{
+$scope.moderecommandto=false;
+}
+
+
+
+}
 /****** Functions to build the arrays containing the exchanges ******/
 function buildExchanges($scope){
 	$scope.exchangesStr.forEach(function(ex){
@@ -638,6 +731,9 @@ function buildExchanges($scope){
 }
 function buildExchangesStr($scope){
 	$scope.exchanges.forEach(function(ex){
+
+
+
 		$scope.exchangesStr.push(
 			ex.from + "#" +
 			ex.what + "#" +

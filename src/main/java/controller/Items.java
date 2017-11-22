@@ -93,6 +93,11 @@ public class Items {
 		return ret;
 	}
 
+	/**
+	 *
+	 * @param token (User description)
+	 * @return String Js
+	 */
 
 	@GET
 	@Path("/all")
@@ -110,6 +115,13 @@ public class Items {
 		em.close();
 		return ret;
 	}
+
+	/**
+	 *
+	 * @param item
+	 * @param token
+	 * @return
+	 */
 	@PUT
 	@Path("/{id}")
 	@Consumes(MediaType.APPLICATION_JSON)
