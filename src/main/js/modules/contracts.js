@@ -144,16 +144,16 @@
               content: [
                 { text: "Exchange Agreement", style: 'header' },
                 { text:"1 . PREAMBLE :", style:'title' },
-              	" The exchange agreement of Objects is non-profit."+" There is no exchange of money between "
-                 +" parties, each of them giving to the other his Object defnited below for free and défnitivement." ,
+              	" The exchange agreement of items is non-profit."+" There is no exchange of money between "
+                 +" parties, each of them giving to the other his items defined below for free and definitively." ,
                 { text:" 2 . Exchange contract between:", style:'title' },
                  $scope.bodyparties,
                  { text:" 3 . TERMS OF THE CONTRACT ", style:'title' },
                  { text:" 3.1 . The exchange ", style:'title' },
                   table($scope.exchangepdf, ['from', 'to','what','when','how','details']),
-                 { text:" 3.2 . The Modality of execution ", style:'title' },
+                 { text:" 3.2 . The implementing modalities ", style:'title' },
                  $scope.Implementing,
-                 { text:" 3.3 . Cancellation of a contract ", style:'title' },
+                 { text:" 3.3 . The termination modalities ", style:'title' },
                  $scope.Termination,
 
                 { text:" Done on :"+1+"             at:"+3 },
@@ -255,10 +255,10 @@
 		});
 
 
-    module.controller('editContract', function($scope, $stateParams, Contract, $state, $http,User){
+    module.controller('editContract', function($rootScope, $scope, $stateParams, Contract, $state, $http,User){
 
 			//this function manages the disconnection because if the session expresses the return to the connection page
-        isUserConnected($http, $rootScope, $scope, $state, User);
+      isUserConnected($http, $rootScope, $scope, $state, User);
 
 			$scope.app.configHeader({back: true, title: 'Edit contracts', contextId: $stateParams.id});
 			$scope.action = 'edit';
@@ -278,9 +278,9 @@
 			};
 			$scope.partiesList = []; // object array
 			$scope.parties = []; // string array
-    		$scope.exchanges = []; // object array
+    	$scope.exchanges = []; // object array
 			$scope.exchangesStr = []; // string array
-      		$scope.usersList = []; // object array
+      $scope.usersList = []; // object array
 			$scope.users = []; // string array
 			getUsers($http, $scope); // fill usersList and users
 			$scope.itemsList = []; // will be filled with the items of the "from" user
@@ -292,8 +292,8 @@
 				//First, load the item and display it via the bindings with item-form.html
   			$scope.form.title = contract.title;
   			$scope.exchangesStr = contract.clauses;
-			$scope.parties = contract.partiesNames; //partiesNames is a hashmap
-        	$scope.impModalities = contract.impModalities;
+				$scope.parties = contract.partiesNames; //partiesNames is a hashmap
+        $scope.impModalities = contract.impModalities;
 				$scope.termModalities = contract.termModalities;
 			});
 			/*******************************************************************/
@@ -383,7 +383,7 @@
     module.controller('addContract', function($rootScope, $scope, Contract, Item, $state, $http,User){
 
       //this function manages the disconnection because if the session expresses the return to the connection page
-        isUserConnected($http, $rootScope, $scope, $state, User);
+      isUserConnected($http, $rootScope, $scope, $state, User);
 
     	$scope.app.configHeader({back: true, title: 'Add contracts'}); //Add Title
     	$scope.action = 'add';
@@ -423,7 +423,7 @@
 			$scope.impModalities = [];
 			$scope.impModalities[0] = "Parties must check the items before executing the exchange.";
 			$scope.impModalities[1] = "Parties must provide an item corresponding to the description.";
-			$scope.impModalities[2] = "Parties must inform the other signatories of any alterations ";
+			$scope.impModalities[2] = "Parties must inform the other signatories of any alterations.";
 				+ "or modifications of the item they possess making it different from the description.";
 			$scope.impModalities[3] = "Parties must provide a document as a proof of their identity.";
 			$scope.impModalities[4] = "Parties are not responsible for any malfunctions or non-conformity "
@@ -481,9 +481,9 @@
 
 					buildExchangesStr($scope);
 
-	    		if ($scope.form.addParty != null && $scope.form.addParty.length>2){updateParties($scope);}
-	    		if ($scope.form.addTermModality != null && $scope.form.addTermModality.length>2){updateTermModalities($scope);}
-	       		if ($scope.form.addImpModality != null && $scope.form.addImpModality.length>2){updateImpModalities($scope);}
+					if ($scope.form.addParty != null && $scope.form.addParty.length>2){updateParties($scope);}
+					if ($scope.form.addTermModality != null && $scope.form.addTermModality.length>2){updateTermModalities($scope);}
+					if ($scope.form.addImpModality != null && $scope.form.addImpModality.length>2){updateImpModalities($scope);}
 
 	    		var contract = new Contract({
 		    		title : $scope.form.title,
@@ -599,7 +599,7 @@ function deleteExchange($scope, e){
 	}
 }
 function deleteParty($scope, p){
-	var index = $scope.parties.findIndex(party >= party.key === newParty.key);
+	var index = $scope.partiesList.findIndex(party => party.key === newParty.key);
 	if (index > -1){
 		$scope.parties.splice(index, 1);
 	}
@@ -638,6 +638,7 @@ function updateImpModalities($scope){
 }
 
 function updateExchanges($scope){
+	if (checkExchanges($scope) == true)
 	$scope.exchanges.push({
 		from : $scope.form.addFrom,
 		what : $scope.form.addWhat,
@@ -747,13 +748,13 @@ function table(data, columns) {
 }
 /*****************************************************************************/
 
-/****** Function to check whether the user fill out all the mandatory information about the contract ******/
+/****** Function to check whether the user filled out all the mandatory information about the contract ******/
 function checkClauses($scope){
 
 	var isOK = true;
 
 	// Contract name
-	if ($scope.form.title == null)
+	if ($scope.form.title == null || $scope.form.title == "")
 	{
 		$scope.errorName = true;
 		isOK = false;
@@ -801,6 +802,60 @@ function checkClauses($scope){
 	else
 	{
 		$scope.errorTermModality = false;
+	}
+
+	return isOK;
+}
+
+function checkExchanges($scope){
+
+	var isOK = true;
+
+	// From field
+	var newFromID = $scope.form.addFrom.split(' - ')[1];
+	if (newFromID != undefined && $scope.partiesList.filter(party => party.key == newFromID).length > 0)
+	{
+		$scope.errorFrom = false;
+	}
+	else
+	{
+		$scope.errorFrom = true;
+		isOK = false;
+	}
+
+	// What field
+	var newWhatID = $scope.form.addWhat.split(' - ')[1];
+	if (newWhatID != undefined && $scope.itemsList.filter(item => item.id == newWhatID).length > 0)
+	{
+		$scope.errorWhat = false;
+	}
+	else
+	{
+		$scope.errorWhat = true;
+		isOK = false;
+	}
+
+	// To field
+	var newToID = $scope.form.addTo.split(' - ')[1];
+	if (newToID != undefined && $scope.partiesList.filter(party => party.key == newToID).length > 0)
+	{
+		$scope.errorTo = false;
+	}
+	else
+	{
+		$scope.errorTo = true;
+		isOK = false;
+	}
+
+	// How field
+	if ($scope.form.addHow != "" && $scope.exchangeModes.includes($scope.form.addHow))
+	{
+		$scope.errorHow = false;
+	}
+	else
+	{
+		$scope.errorHow = true;
+		isOK = false;
 	}
 
 	return isOK;

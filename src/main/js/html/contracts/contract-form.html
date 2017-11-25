@@ -61,7 +61,8 @@
 							ng-model="form.addFrom" ng-change="updateItems()"
 							uib-typeahead="party for party in parties | filter:$viewValue | limitTo:8"
 							typeahead-on-select="updateItems()">
-					</span>
+							<div ng-show="errorFrom"><font color="red"><em>This user is not a party</em></font></div>
+						</span>
 				</div>
 				<br/>
 				<div class="row">
@@ -69,7 +70,8 @@
 					<span class="col-sm-9 col-md-10">
 						<input type="text" class="form-control" placeholder="Choose an item" ng-model="form.addWhat"
 							uib-typeahead="item for item in items | filter:$viewValue | limitTo:8">
-					</span>
+							<div ng-show="errorWhat"><font color="red"><em>This item doesn't exist</em></font></div>
+						</span>
 				</div>
 				<br/>
 				<div class="row">
@@ -77,7 +79,8 @@
 					<span class="col-sm-9 col-md-10">
 						<input type="text" class="form-control" placeholder="Choose a party" ng-model="form.addTo"
 							uib-typeahead="party for party in parties | filter:$viewValue | limitTo:8">
-					</span>
+							<div ng-show="errorTo"><font color="red"><em>This user is not a party</em></font></div>
+						</span>
 				</div>
 				<br/>
 				<div class="row">
@@ -92,10 +95,13 @@
 				<br/>
 				<div class="row">
 					<label for="addClause" class="col-sm-3 col-md-2">HOW</label>
-					<span class="col-sm-9 col-md-10"><select class="form-control" id="selectfor" ng-model="form.addHow" title="For Party" >
-		    		<option value="" selected disabled>Choose an exchange mode</option>
-		    		<option ng-repeat="mode in exchangeModes">{{mode}} </option>
-			    </select></span>
+					<span class="col-sm-9 col-md-10">
+						<select class="form-control" id="selectfor" ng-model="form.addHow" title="For Party" >
+		    			<option value="" selected disabled>Choose an exchange mode</option>
+		    			<option ng-repeat="mode in exchangeModes">{{mode}}</option>
+			    	</select>
+						<div ng-show="errorHow"><font color="red"><em>You must specify an exchange mode</em></font></div>
+					</span>
 				</div>
 				<br/>
 				<div class="row">
