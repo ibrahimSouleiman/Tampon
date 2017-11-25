@@ -1,24 +1,55 @@
-<div  class="col-sm-12 col-md-6 col-md-offset-3">
+<div class="col-sm-12 col-md-12">
 	<div class="panel" ng-class="checkClass()">
 		<div class="panel-heading"><h1>{{title}}</h1></div>
 
 		<div class="panel-body">
-			<p>Parties :<span ng-repeat="party in parties"><br/>&nbsp;&nbsp;&nbsp;&nbsp;{{party}}</span></p>
-			<p><strong>Clauses : <span ng-repeat="clause in clauses"><br/>&nbsp;&nbsp;&nbsp;&nbsp;{{clause}}</span></strong></p>
-			<p><strong>Modality : <span ng-repeat="mod in modality"><br/>&nbsp;&nbsp;&nbsp;&nbsp;{{mod}}</span></strong></p>
-			<p><strong>Canceled  : <span ng-repeat="cancel in canceled"><br/>&nbsp;&nbsp;&nbsp;&nbsp;{{cancel}}</span></strong></p>
+			<p>
+				<strong>Parties : </strong>
+				<div ng-repeat="party in parties">
+					{{party.value}} <i>{{party.key}}</i>
+				</div>
+			</p>
 
-			<p><strong>exchange:<span ng-repeat="exchange in Exchange">
-             <br/><br/>
-		    from:{{exchange.from}}<br/>
-		    To:{{exchange.to}}<br/>
-			Item:{{exchange.item}}<br/>
-			Time:{{exchange.when}}<br/>
-				How:{{exchange.how}}<br/>
-				Details:{{exchange.details}}<br/>
-				<br/><br/>
+			<p>
+				<strong>Exchanges : </strong>
+				<div class="col-sm-12" ng-repeat="exchange in exchanges">
+					<div class="col-sm-10">
+						The user <strong>{{exchange.from}}</strong>
+						will give the item <strong>{{exchange.what}}</strong>
+						to the user <strong>{{exchange.to}}</strong>
+						the <strong>{{exchange.when}}</strong>
+						<strong>{{exchange.how}}</strong>
+						<br>Details : {{exchange.details}}.
+					</div>
+				</div>
+			</p><br>
 
-			</span>
+			<p>
+				<strong>Implementing modalities : </strong>
+				<div class="table-responsive">
+					<table class="table table-striped">
+						<tbody>
+						<tr ng-repeat="modality in impModalities">
+							<td>{{modality}}</td>
+						</tr>
+						</tbody>
+					</table>
+				</div>
+			</p>
+
+			<p>
+				<strong>Termination modalities : </strong>
+				<div class="table-responsive">
+					<table class="table table-striped">
+						<tbody>
+						<tr ng-repeat="modality in termModalities">
+							<td>{{modality}}</td>
+						</tr>
+						</tbody>
+					</table>
+				</div>
+			</p>
+
 		</div>
 
 		<div class="panel-footer" ng-show="contract.status=='NOWHERE'">

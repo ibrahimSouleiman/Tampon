@@ -44,6 +44,7 @@
 
 			$scope.app.configHeader({back: true, title: 'View contract', contextButton: 'editContract', contextId: $stateParams.id});
 
+			$scope.exchanges = [];
 	  	var contract = Contract.get({id: $stateParams.id}, function() {
 	    	//Just load the contract and display it via the bindings with contract.html
 	    	$scope.contract = contract;
@@ -53,8 +54,12 @@
 		    $scope.canceled = contract.canceled;
 		    $scope.modality = contract.modality;
 		    $scope.exchangeClause=contract.exchange;
-
-        /** Actually Exchange clauss is Array<String> content all information about this exchange with string */
+				$scope.impModalities = contract.implementing;
+				$scope.termModalities = contract.termination;
+				$scope.parties = contract.partiesNames; //partiesNames is a hashmap
+				$scope.exchangesStr = contract.exchange;
+				buildExchanges($scope);
+        /** Actually Exchange clause is Array<String> content all information about this exchange with string */
         $scope.Exchange=[];
         ex=contract.exchange;
 
@@ -291,13 +296,16 @@
 			var contract = Contract.get({id: $stateParams.id}, function() {
 				//First, load the item and display it via the bindings with item-form.html
   			$scope.form.title = contract.title;
-  			$scope.exchangesStr = contract.clauses;
-				$scope.parties = contract.partiesNames; //partiesNames is a hashmap
-        $scope.impModalities = contract.impModalities;
-				$scope.termModalities = contract.termModalities;
+  			$scope.exchangesStr = contract.exchange;
+				$scope.partiesList = contract.partiesNames; //partiesNames is a hashmap
+        $scope.impModalities = contract.implementing;
+				$scope.termModalities = contract.termination;
 			});
 			/*******************************************************************/
 
+			$scope.partiesList.forEach(function(party) {
+				$scope.parties.push(party.key + " - " + party.value);
+			}); // build $scope.parties from $scope.partiesList
 			buildExchanges($scope); // build $scope.exchanges from $scope.exchangesStr
 
 			/****** Initialising the exchange modes ******/
@@ -346,7 +354,7 @@
 				if (isOK)
 				{
           var partiesId = [];
-          $scope.parties.forEach(function(party) {
+          $scope.partiesList.forEach(function(party) {
             partiesId.push(party.key);
           });
 
@@ -596,11 +604,13 @@ function deleteExchange($scope, e){
 	var index = $scope.exchanges.indexOf(e);
 	if (index > -1){
 		$scope.exchanges.splice(index, 1);
+		$scope.exchangesList.splice(index, 1);
 	}
 }
 function deleteParty($scope, p){
 	var index = $scope.partiesList.findIndex(party => party.key === newParty.key);
 	if (index > -1){
+		$scope.partiesList.splice(index, 1);
 		$scope.parties.splice(index, 1);
 	}
 }
