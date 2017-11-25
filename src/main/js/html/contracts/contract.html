@@ -3,26 +3,25 @@
 		<div class="panel-heading"><h1>{{title}}</h1></div>
 
 		<div class="panel-body">
+
 			<p>
 				<strong>Parties : </strong>
-				<div ng-repeat="party in parties">
-					{{party.value}} <i>{{party.key}}</i>
+				<div class="col-sm-12" ng-repeat="party in parties">
+					<strong>{{party.value}}</strong> <i>{{party.key}}</i>
 				</div>
 			</p>
 
 			<p>
 				<strong>Exchanges : </strong>
 				<div class="col-sm-12" ng-repeat="exchange in exchanges">
-					<div class="col-sm-10">
-						The user <strong>{{exchange.from}}</strong>
-						will give the item <strong>{{exchange.what}}</strong>
-						to the user <strong>{{exchange.to}}</strong>
-						the <strong>{{exchange.when}}</strong>
-						<strong>{{exchange.how}}</strong>
-						<br>Details : {{exchange.details}}.
-					</div>
+					The user <strong>{{exchange.from}}</strong>
+					will give the item <strong>{{exchange.what}}</strong>
+					to the user <strong>{{exchange.to}}</strong>
+					the <strong>{{exchange.when}}</strong>
+					<strong>{{exchange.how}}</strong>
+					<br>Details : {{exchange.details}}.
 				</div>
-			</p><br>
+			</p>
 
 			<p>
 				<strong>Implementing modalities : </strong>

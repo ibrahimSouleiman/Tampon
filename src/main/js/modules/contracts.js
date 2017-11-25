@@ -281,10 +281,10 @@
 				addImpModality : "",
 				addTermModality : ""
 			};
-			$scope.partiesList = []; // object array
+			//$scope.partiesList = []; // object array
 			$scope.parties = []; // string array
     	$scope.exchanges = []; // object array
-			$scope.exchangesStr = []; // string array
+			//$scope.exchangesStr = []; // string array
       $scope.usersList = []; // object array
 			$scope.users = []; // string array
 			getUsers($http, $scope); // fill usersList and users
@@ -300,13 +300,13 @@
 				$scope.partiesList = contract.partiesNames; //partiesNames is a hashmap
         $scope.impModalities = contract.implementing;
 				$scope.termModalities = contract.termination;
+				$scope.partiesList.forEach(function(party) {
+					$scope.parties.push(party.value + " - " + party.key);
+				}); // build $scope.parties from $scope.partiesList
+				buildExchanges($scope); // build $scope.exchanges from $scope.exchangesStr
 			});
 			/*******************************************************************/
 
-			$scope.partiesList.forEach(function(party) {
-				$scope.parties.push(party.key + " - " + party.value);
-			}); // build $scope.parties from $scope.partiesList
-			buildExchanges($scope); // build $scope.exchanges from $scope.exchangesStr
 
 			/****** Initialising the exchange modes ******/
 			$scope.exchangeModes = [];
@@ -358,7 +358,9 @@
             partiesId.push(party.key);
           });
 
+					$scope.exchanges = [];
 					buildExchangesStr($scope);
+					buildExchanges($scope);
 
       		if ($scope.form.addParty != null && $scope.form.addParty.length>2){updateParties($scope);}
           if ($scope.form.addImpModality != null && $scope.form.addImpModality.length>2){updateImpModalities($scope);}
@@ -367,7 +369,7 @@
 					//Contract is available thanks to restApi.js
       		contract.title = $scope.form.title;
 					contract.parties = partiesId;
-					contract.clauses = $scope.exchangesStr;
+					contract.exchange = $scope.exchangesStr;
 					contract.implementing = $scope.impModalities;
 					contract.termination = $scope.termModalities;
 
@@ -604,11 +606,11 @@ function deleteExchange($scope, e){
 	var index = $scope.exchanges.indexOf(e);
 	if (index > -1){
 		$scope.exchanges.splice(index, 1);
-		$scope.exchangesList.splice(index, 1);
+		$scope.exchangesStr.splice(index, 1);
 	}
 }
 function deleteParty($scope, p){
-	var index = $scope.partiesList.findIndex(party => party.key === newParty.key);
+	var index = $scope.partiesList.findIndex(party => party.key === p.key);
 	if (index > -1){
 		$scope.partiesList.splice(index, 1);
 		$scope.parties.splice(index, 1);
