@@ -40,13 +40,20 @@
     // 'View contract' state controller function
 
     module.controller('viewContract',  function($scope,$window, $http, $stateParams, Contract, $rootScope, $state, User,Message,Oboe) {
-        isUserConnected($http, $rootScope, $scope, $state, User);
+      isUserConnected($http, $rootScope, $scope, $state, User);
 
 			$scope.app.configHeader({back: true, title: 'View contract', contextButton: 'editContract', contextId: $stateParams.id});
 
 			$scope.exchanges = [];
-	  	var contract = Contract.get({id: $stateParams.id}, function() {
-	    	//Just load the contract and display it via the bindings with contract.html
+
+			var contract = Contract.get({id: $stateParams.id}, function() {
+				var contextBtn = null;
+				if(contract.status == 'NOWHERE')
+				{
+					contextBtn = 'editContract';
+				}
+
+				//Just load the contract and display it via the bindings with contract.html
 	    	$scope.contract = contract;
 				// this variable help to get all information about contract
 		    $scope.title = contract.title
@@ -258,7 +265,6 @@
 
         };
 		});
-
 
     module.controller('editContract', function($rootScope, $scope, $stateParams, Contract, $state, $http,User){
 
