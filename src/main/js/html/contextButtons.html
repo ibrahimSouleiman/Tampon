@@ -27,5 +27,5 @@
         ng-click="decline()"><span class="glyphicon glyphicon-remove"></span> Decline
 </button>
 <button class="btn btn-link btn-lg linknodeco transibutton" ng-show="app.showContextButton('editContract')"
-        ng-click="getPdf()"><span class="glyphicon glyphicon-download-alt"></span> Download
+        ui-sref="editContract({id: app.getContextId()})"  ><span class="glyphicon glyphicon-download-alt"></span> Download
 </button>

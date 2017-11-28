@@ -150,9 +150,9 @@ public class Contracts {
 		for (ContractEntity contract : contracts){
 			if (contract.getParties().contains(c.getUserid())){
 				if (contract.getWish().equals(Wish.NEUTRAL)){
-					c.setTermination(contract.getTermination());
-					c.setImplementing(contract.getImplementing());
-					c.setExchange(contract.getExchange());
+                    contract.setTermination(c.getTermination());
+					contract.setImplementing(c.getImplementing());
+					contract.setExchange(c.getExchange());
 					contract.setParties(parties);
 					contract.setTitle(c.getTitle());
 					contract.setPartiesNames(partiesNames);
@@ -161,14 +161,15 @@ public class Contracts {
 			if (contract.getId().equals(c.getId()))
 				cRes = contract;
 		}
+
 		em.end();
 		em.close();
-        updateContract(token,cRes.getId(),Wish.NEUTRAL);
+     //   updateContract(token,cRes.getId(),Wish.NEUTRAL);
 		JsonTools<ContractEntity> json = new JsonTools<>(new TypeReference<ContractEntity>(){});
 
 		return json.toJson(cRes);
 	}
-	
+
 	@DELETE
 	@Path("/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -278,9 +279,9 @@ public class Contracts {
         for (ContractEntity contract : contracts) {
             if (contract.getParties().contains(c.getUserid())) {
                 if (contract.getWish().equals(Wish.NEUTRAL)) {
-                    c.setTermination(contract.getTermination());
-                    c.setImplementing(contract.getImplementing());
-                    c.setExchange(contract.getExchange());
+					contract.setTermination(c.getTermination());
+					contract.setImplementing(c.getImplementing());
+					contract.setExchange(c.getExchange());
                     contract.setParties(parties);
                     contract.setTitle(c.getTitle());
                     contract.setPartiesNames(partiesNames);
