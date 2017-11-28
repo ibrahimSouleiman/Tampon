@@ -10,14 +10,59 @@
 
 		<section class="row">
 			<h4><strong>Exchanges : </strong></h4>
-			<p class="col-sm-12" ng-repeat="exchange in exchanges">
-				The user <strong>{{exchange.from}}</strong>
-				will give the item <strong>{{exchange.what}}</strong>
-				to the user <strong>{{exchange.to}}</strong>
-				the <strong>{{exchange.when}}</strong>
-				<strong>{{exchange.how}}</strong>
-				<br>Details : {{exchange.details}}.
-			</p>
+			<div class="table-responsive" data-ng-show="exchanges.length>0">
+				<table class="table table-striped">
+					<thead>
+
+					</thead>
+					<tbody>
+					<tr ng-repeat="exchange in exchanges"><td>
+							The user:<strong>{{exchange.from}}</strong>
+							<br>
+							will give the item:<strong>{{exchange.what}}</strong>
+							<br>
+							to the user:<strong>{{exchange.to}}</strong>
+							<br>
+							How :<strong>{{exchange.how}}</strong>
+							<br>
+
+							<div data-ng-show="exchange.how.length == 10">
+								Place:<strong>{{exchange.place}}</strong>
+								<br>
+								When Exchange:<strong>{{exchange.when}}</strong>
+								<br>
+								Details:<strong>{{exchange.details}}</strong>
+								<br>
+							</div>
+							<div data-ng-show="exchange.how.length == 15">
+								Email From:<strong>{{exchange.emailfrom}}</strong>
+								<br>
+								Email to:<strong>{{exchange.emailto}}</strong>
+								<br>
+								When Sending:<strong>{{exchange.whenfrom}}</strong>
+								<br>
+								Details:<strong>{{exchange.details}}</strong>
+								<br>
+							</div>
+							<div data-ng-show="exchange.how.length == 9">
+								User 'from' address:<strong>{{exchange.userfrom}}</strong>
+								<br>
+								User 'to' address:<strong>{{exchange.userto}}</strong>
+								<br>
+								Date:<strong>{{exchange.datefrom}}</strong>
+								<br>
+								Send Mode:<strong>{{exchange.sendhowfrom}}</strong>
+								<br>
+
+								Details:<strong>{{exchange.details}}</strong>
+								<br>
+
+						</td>
+
+					</tr>
+					</tbody>
+				</table>
+			</div>
 		</section>
 
 		<section class="row">

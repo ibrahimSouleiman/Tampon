@@ -29,7 +29,7 @@
 	</br>
 		<div class="col-sm-offset-9 col-sm-10" data-ng-show="{{action=='edit'}}">
 
-		<button type="button" class="btn btn-success"><span class="glyphicon glyphicon-plus"></span> Add</button>
+		<button type="button" class="btn btn-success" ng-click="showformParty()"><span class="glyphicon glyphicon-plus"></span> Add</button>
 		</div>
 		<div class="panel-body">
 			<div class="col-sm-8" ng-repeat="party in partiesList">
@@ -57,7 +57,7 @@
 		</div>
 		</br>
 		<div class="col-sm-offset-9" data-ng-show="{{action=='edit'}}">
-			<button type="button"  class="btn btn-success"><span class="glyphicon glyphicon-plus"></span> Add</button>
+			<button type="button"  class="btn btn-success" data-ng-click="showformExchange()"><span class="glyphicon glyphicon-plus"></span> Add</button>
 
 		</div>
 		<div class="panel-body">
@@ -297,7 +297,7 @@
 			</div>
 			</br>
 			<div class="col-sm-offset-9" data-ng-show="{{action=='edit'}}">
-				<button type="button"  class="btn btn-success"><span class="glyphicon glyphicon-plus"></span> Add</button>
+				<button type="button"  class="btn btn-success" data-ng-click="showformImplementing()"><span class="glyphicon glyphicon-plus"></span> Add</button>
 
 			</div>
 			<div class="panel-body">
@@ -337,7 +337,7 @@
 		</div>
 		</br>
 		<div class="col-sm-offset-9" data-ng-show="{{action=='edit'}}">
-			<button type="button"  class="btn btn-success"><span class="glyphicon glyphicon-plus"></span> Add</button>
+			<button type="button"  class="btn btn-success" data-ng-click="showformTermination()"><span class="glyphicon glyphicon-plus"></span> Add</button>
 
 		</div>
 

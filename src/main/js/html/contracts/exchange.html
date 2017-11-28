@@ -1,14 +1,42 @@
-<div class="well well-sm col-sm-10">
-	The user <strong>{{exchange.from}}</strong>
+<td>
+	The user:<strong>{{exchange.from}}</strong>
 	<br>
-	will give the item <strong>{{exchange.what}}</strong>
+	will give the item:<strong>{{exchange.what}}</strong>
 	<br>
-	to the user <strong>{{exchange.to}}</strong>
+	to the user:<strong>{{exchange.to}}</strong>
 	<br>
-	the <strong>{{exchange.when}}</strong>
+	How :<strong>{{exchange.how}}</strong>
 	<br>
-	<strong>{{exchange.how}}</strong>
-</div>
-<div class="col-sm-2">
-   	<a class="btn btn-danger" ng-click="deleteExchange(exchange)" type="button">Delete</a>
-</div>
+
+	<div data-ng-show="exchange.how.length == 10">
+		Place:<strong>{{exchange.place}}</strong>
+		<br>
+		When Exchange:<strong>{{exchange.when}}</strong>
+		<br>
+		Details:<strong>{{exchange.details}}</strong>
+		<br>
+	</div>
+	<div data-ng-show="exchange.how.length == 15">
+		Email From:<strong>{{exchange.emailfrom}}</strong>
+		<br>
+		Email to:<strong>{{exchange.emailto}}</strong>
+		<br>
+		When Sending:<strong>{{exchange.whenfrom}}</strong>
+		<br>
+		Details:<strong>{{exchange.details}}</strong>
+		<br>
+	</div>
+	<div data-ng-show="exchange.how.length == 9">
+		User 'from' address:<strong>{{exchange.userfrom}}</strong>
+		<br>
+		User 'to' address:<strong>{{exchange.userto}}</strong>
+		<br>
+		Date:<strong>{{exchange.datefrom}}</strong>
+		<br>
+		Send Mode:<strong>{{exchange.sendhowfrom}}</strong>
+		<br>
+
+		Details:<strong>{{exchange.details}}</strong>
+		<br>
+
+</td>
