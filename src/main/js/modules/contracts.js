@@ -166,12 +166,10 @@
                  { text:" 3 . TERMS OF THE CONTRACT ", style:'title' },
                  { text:" 3.1 . The exchange ", style:'title' },
                   table($scope.exchangepdf, ['']),
-
-
                  { text:" 3.2 . The implementing modalities", style:'title' },
-                 $scope.Implementing,
+                 $scope.bodyImplementing,
                  { text:" 3.3 . The termination modalities", style:'title' },
-                 $scope.Termination,
+                 $scope.bodyTermination,
 
                 { text:" Done on :"+1+"             at:"+3 },
                 { text: function(){return "Doesnt work"}},
@@ -322,6 +320,17 @@ var docDefinitions = {
 			$scope.items = []; // string array
 			/***********************************************/
 
+               $scope.showParty = true;
+               $scope.showExchange = true;
+               $scope.showImplementing = true;
+               $scope.showTermincation = true;
+
+
+
+           /***********************************************/
+
+
+
 			/****** Getting back the informations about the contract ******/
 		  var contract = Contract.get({id: $stateParams.id}, function() {
 					//First, load the item and display it via the bindings with item-form.html
@@ -330,6 +339,8 @@ var docDefinitions = {
                 			$scope.partiesList = contract.partiesNames; //partiesNames is a hashmap
                             $scope.impModalities = contract.implementing;
                 			$scope.termModalities = contract.termination;
+
+
                 			$scope.partiesList.forEach(function(party) {
                 			$scope.parties.push(party.value + " - " + party.key);
                 				}); // build $scope.parties from $scope.partiesList
@@ -338,6 +349,16 @@ var docDefinitions = {
 			/*******************************************************************/
 
 			buildExchanges($scope); // build $scope.exchanges from $scope.exchangesStr
+            $scope.partiesList = []; // object array
+			$scope.parties = []; // string array
+    	    $scope.exchanges = []; // object array
+			$scope.exchangesStr = []; // string array
+			$scope.usersList = []; // object array
+			$scope.users = []; // string array
+			getUsers($http, $scope); // fill usersList and users
+			$scope.itemsList = []; // will be filled with the items of the "from" user
+			$scope.items = []; // string array
+			/***********************************************/
 
 			/****** Initialising the exchange modes ******/
 			$scope.exchangeModes = [];
@@ -346,7 +367,28 @@ var docDefinitions = {
 			$scope.exchangeModes[2] = "in person";
 			/***********************************************/
 
+			/****** Initialising the Mode transmission package ******/
+        			$scope.exchangeModeTranmission = [];
+        			$scope.exchangeModeTranmission[0] = "Recommended";
+        			$scope.exchangeModeTranmission[1] = "Normal";
+            /***********************************************/
+             datetimepicker8
+
+
+
+
+
+			/****** Initialising the default termination modalities ******/
+			$scope.termModalities = [];
+			$scope.termModalities[0] = "Parties can refuse to execute the exchange at any time "
+				+ "before any items has been exchanged."
+			/***********************************************/
+
 			/****** Indicators for the modification of an implementing and termination modality ******/
+			$scope.modifExchMod = {
+        		 toModify : false, // indicate wheter a modality has to be modified
+        		 index : -1 // modifying modality's index
+        			};
 			$scope.modifImpMod = {
 				toModify : false, // indicate wheter a modality has to be modified
 				index : -1 // modifying modality's index
@@ -362,22 +404,27 @@ var docDefinitions = {
 			$scope.updateImpModalities = function() {updateImpModalities($scope)};
 			$scope.updateTermModalities = function() {updateTermModalities($scope)};
 
+
+
 			$scope.deleteParty = function(p) {deleteParty($scope,p)};
 			$scope.deleteExchange = function(c) {deleteExchange($scope,c)};
 			$scope.deleteImpModality = function(m) {deleteImpModality($scope, m)};
 			$scope.deleteTermModality = function(m) {deleteTermModality($scope, m)};
 
-
+			$scope.modifyExchangeModality = function(m) {modifyExchangeModality($scope,m)};
 			$scope.modifyImpModality = function(m) {modifyImpModality($scope,m)};
 			$scope.modifyTermModality = function(c) {modifyTermModality($scope,c)};
 			$scope.cancelImpModality = function() {cancelImpModality($scope)};
 			$scope.cancelTermModality = function() {cancelTermModality($scope)};
+			$scope.cancelExchModality = function() {cancelExchModality($scope)};
+
 			$scope.validateImpModality = function() {validateImpModality($scope)};
 			$scope.validateTermModality = function() {validateTermModality($scope)};
-
+			$scope.validateExchangeModality = function(m) {validateExchangeModality($scope,m)};
 			$scope.updateItems = function() {updateItems($http, $scope)};
-			/*******************************************************************/
+            $scope.updatehow = function(choice) {updatehow($scope,choice)};
 
+			/*******************************************************************/
 			/****** Submit button function ******/
     	$scope.submit = function() {
 
@@ -407,7 +454,6 @@ var docDefinitions = {
                                 console.log("SUBMIT="+contract.parties+" title="+contract.title);
                         // +" exchanges="+contract.exchange+" implent="+contract.implementing+" termination="+contract.termination
                   		contract.$update(function() {
-                  			console.log("Title="+contract.title);
                   			$state.go('viewContracts');
 
                   	  });
@@ -599,7 +645,7 @@ if(isValid)
 
 /****** Functions to handle the modification of an implementing or termination modality ******/
 function modifyExchangeModality($scope, e){
-
+$scope.showExchange=false;
 console.log("Mod="+e);
 $scope.modifExchMod.toModify = true;
 $scope.form.addFrom =e.from;

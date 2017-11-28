@@ -1,3 +1,4 @@
+</br>
 <h2 ng-show="{{action === 'add'}}">Add a new contract</h2>
 <h2 ng-show="{{action === 'edit'}}">Edit a contract</h2>
 
@@ -25,17 +26,22 @@
 				<span class="glyphicon glyphicon-user"></span> Party
 			</label>
 		</div>
+	</br>
+		<div class="col-sm-offset-9 col-sm-10" data-ng-show="{{action=='edit'}}">
+
+		<button type="button" class="btn btn-success"><span class="glyphicon glyphicon-plus"></span> Add</button>
+		</div>
 		<div class="panel-body">
 			<div class="col-sm-8" ng-repeat="party in partiesList">
 				<party/>
 			</div>
 			<div class="row">
-				<div class="col-sm-6">
+				<div class="col-sm-6" data-ng-show="!showParty">
 					<input type="text" class="form-control" placeholder="Choose a user" ng-model="form.addParty"
 						   uib-typeahead="user for user in users | filter:$viewValue | limitTo:8">
 					<div ng-show="errorParty"><font color="red"><em>You must add a party</em></font></div>
 				</div>
-				<div class="col-sm-2">
+				<div class="col-sm-2" data-ng-show="!showParty">
 					<button type="button" class="btn btn-default" ng-click="updateParties()">Add party</button>
 				</div>
 			</div>
@@ -48,6 +54,11 @@
 			<label class="control-label">
 				<span class="glyphicon glyphicon-gift"></span> Exchange
 			</label>
+		</div>
+		</br>
+		<div class="col-sm-offset-9" data-ng-show="{{action=='edit'}}">
+			<button type="button"  class="btn btn-success"><span class="glyphicon glyphicon-plus"></span> Add</button>
+
 		</div>
 		<div class="panel-body">
 
@@ -105,12 +116,13 @@
 
 						</td>
 						<td>
-							<button type="button" class="btn btn-danger" ng-click="modifyExchangeModality(exchange)">
-								Update
+							<button type="button" class="btn btn-warning" ng-click="modifyExchangeModality(exchange)">
+								<span class="glyphicon glyphicon-edit"></span>
+								Edit
 							</button>
 						</td>
 						<td>
-							<button type="button" class="btn btn-danger" ng-click="deleteExchange(exchange)">Delete
+							<button type="button" class="btn btn-danger" ng-click="deleteExchange(exchange)"><span class="glyphicon glyphicon-remove"></span> Delete
 							</button>
 						</td>
 					</tr>
@@ -119,6 +131,7 @@
 			</div>
 
 			<div class="col-sm-8">
+				<div class="row" data-ng-show="!showExchange">
 				<div class="row">
 
 
@@ -271,6 +284,7 @@
 					</button>
 
 				</div>
+				</div>
 				<div ng-show="errorExchange"><font color="red"><em>You must add an exchange clause</em></font></div>
 			</div>
 	</div>
@@ -280,6 +294,11 @@
 				<label class="control-label">
 					<span class="glyphicon glyphicon-leaf"></span> Implementing modalities
 				</label>
+			</div>
+			</br>
+			<div class="col-sm-offset-9" data-ng-show="{{action=='edit'}}">
+				<button type="button"  class="btn btn-success"><span class="glyphicon glyphicon-plus"></span> Add</button>
+
 			</div>
 			<div class="panel-body">
 				<div class="table-responsive">
@@ -293,13 +312,13 @@
 						<tbody>
 						<tr ng-repeat="modality in impModalities">
 							<td>{{modality}}</td>
-							<td><button type="button" class="btn btn-danger" ng-click="modifyImpModality(modality)">Modify</button></td>
-							<td><button type="button" class="btn btn-danger" ng-click="deleteImpModality(modality)">Delete</button></td>
+							<td><button type="button" class="btn btn-warning" ng-click="modifyImpModality(modality)"><span class="glyphicon glyphicon-edit"></span>Edit</button></td>
+							<td><button type="button" class="btn btn-danger" ng-click="deleteImpModality(modality)"><span class="glyphicon glyphicon-remove"></span> Delete</button></td>
 						</tr>
 						</tbody>
 					</table>
 				</div>
-				<div>
+				<div data-ng-show="!showImplementing">
 					<textarea class="form-control" rows="5" cols="3" ng-model="form.addImpModality" ></textarea>
 					<div ng-show="errorImpModality"><font color="red"><em>You must add an implementing modality</em></font></div>
 					<br>
@@ -316,8 +335,17 @@
 				<span class="glyphicon glyphicon-fire"></span> Termination modalities
 			</label>
 		</div>
+		</br>
+		<div class="col-sm-offset-9" data-ng-show="{{action=='edit'}}">
+			<button type="button"  class="btn btn-success"><span class="glyphicon glyphicon-plus"></span> Add</button>
+
+		</div>
+
 		<div class="panel-body">
+
+
 			<div class="table-responsive">
+
 				<table class="table table-striped">
 					<thead>
 					<tr>
@@ -328,13 +356,14 @@
 					<tbody>
 					<tr ng-repeat="modality in termModalities">
 						<td>{{modality}}</td>
-						<td><button type="button" class="btn btn-danger" ng-click="modifyTermModality(modality)">Update</button></td>
-						<td><button type="button" class="btn btn-danger" ng-click="deleteTermModality(modality)">Delete</button></td>
+						<td><button type="button" class="btn btn-warning" ng-click="modifyTermModality(modality)"><span class="glyphicon glyphicon-edit"></span>Edit</button></td>
+						<td><button type="button" class="btn btn-danger" ng-click="deleteTermModality(modality)"><span class="glyphicon glyphicon-remove"></span> Delete</button></td>
 					</tr>
 					</tbody>
 				</table>
 			</div>
-			<div>
+
+			<div data-ng-show="!showTermincation">
 				<textarea class="form-control" rows="5" cols="3" ng-model="form.addTermModality" ></textarea>
 				<div ng-show="errorTermModality"><font color="red"><em>You must add a termination modality</em></font></div>
 				<br>
