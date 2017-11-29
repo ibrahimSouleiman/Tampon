@@ -156,12 +156,13 @@ public class Contracts {
                     contract.setTermination(c.getTermination());
 					contract.setImplementing(c.getImplementing());
 					contract.setExchange(c.getExchange());
-
 					contract.setStatus(Status.MODIFIED);
   
 					contract.setParties(parties);
 					contract.setTitle(c.getTitle());
 					contract.setPartiesNames(partiesNames);
+
+
 				}
 			}
 			if (contract.getId().equals(c.getId()))

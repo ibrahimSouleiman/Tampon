@@ -179,14 +179,14 @@
 				<div class="row" ng-show="delivery">
 					<label for="addClause" class="col-sm-3 col-md-2">User 'from' address</label>
 					<span class="col-sm-9 col-md-10">
-						<input type="text" class="form-control" placeholder="place, address, timelimit..."
+						<input type="text" class="form-control" placeholder="Adress"
 							   ng-model="form.deliveryUserfrom">
 					</span><br/><br/><br/>
 				</div>
 				<div class="row" ng-show="delivery">
 					<label for="addClause" class="col-sm-3 col-md-2">User 'to' address</label>
 					<span class="col-sm-9 col-md-10">
-						<input type="text" class="form-control" placeholder="place, address, timelimit..."
+						<input type="text" class="form-control" placeholder="Adress"
 							   ng-model="form.deliveryUserto">
 					</span><br/><br/><br/>
 				</div>
@@ -208,26 +208,13 @@
 		    		<option ng-repeat="mode in exchangeModeTranmission">{{mode}} </option>
 			    </select></span><br/><br/><br/>
 				</div>
-				<div class="row" ng-show="delivery && moderecommand">
-					<label for="addClause" class="col-sm-3 col-md-2">Number</label>
-					<span class="col-sm-9 col-md-10">
-						<input type="text" class="form-control" placeholder="place, address, timelimit..."
-							   ng-model="form.deliveryNumberfrom">
-					</span><br/><br/><br/>
-				</div>
 
 
-				<div class="row" ng-show="delivery && moderecommand">
-					<label for="addClause" class="col-sm-3 col-md-2">Number</label>
-					<span class="col-sm-9 col-md-10">
-						<input type="text" class="form-control" placeholder="place, address, timelimit..."
-							   ng-model="form.deliveryNumberfrom">
-					</span><br/><br/><br/>
-				</div>
+
 				<div class="row" ng-show="inperson">
 					<label for="addClause" class="col-sm-3 col-md-2">Place of exchange</label>
 					<span class="col-sm-9 col-md-10">
-						<input type="text" class="form-control" placeholder="place, address, timelimit..."
+						<input type="text" class="form-control" placeholder="Adress"
 							   ng-model="form.inpersonPlace">
 					</span><br/><br/><br/>
 				</div>
@@ -243,14 +230,14 @@
 				<div class="row" ng-show="electronically">
 					<label for="addClause" class="col-sm-3 col-md-2">Email from:</label>
 					<span class="col-sm-9 col-md-10">
-						<input type="text" class="form-control" placeholder="place, address, timelimit..."
+						<input type="text" class="form-control" placeholder="Email"
 							   ng-model="form.electronicallyEmailfrom">
 					</span><br/><br/><br/>
 				</div>
 				<div class="row"  ng-show="electronically">
 					<label for="addClause" class="col-sm-3 col-md-2">Email to:</label>
 					<span class="col-sm-9 col-md-10">
-						<input type="text" class="form-control" placeholder="place, address, timelimit..."
+						<input type="text" class="form-control" placeholder="Email"
 							   ng-model="form.electronicallyEmailto">
 					</span><br/><br/><br/>
 				</div>
@@ -266,8 +253,8 @@
 				<div class="row"  ng-show="detailhow">
 					<label for="addClause" class="col-sm-3 col-md-2">details</label>
 					<span class="col-sm-9 col-md-10">
-						<input type="text" class="form-control" placeholder="place, address, timelimit..."
-							   ng-model="form.addDetails">
+					<textarea class="form-control" rows="5" cols="3"
+							  ng-model="form.addDetails"></textarea>
 					</span> <br/><br/><br/>
 				</div>
 				<div class="row">
@@ -289,23 +276,12 @@
 				<div ng-show="errorExchange"><font color="red"><em>You must add an exchange clause</em></font></div>
 			</div>
 	</div>
-		<!-- Implementing modalities field -->
-		<div class="form-group panel-success">
-			<div class="panel-heading">
-				<label class="control-label">
-					<span class="glyphicon glyphicon-leaf"></span> Implementing modalities
-				</label>
-			</div>
-			</br>
-			<div class="col-sm-offset-9" data-ng-show="{{action=='edit'}}">
-				<button type="button"  class="btn btn-success" data-ng-click="showformImplementing()"><span class="glyphicon glyphicon-plus"></span> Add</button>
-
 
 	<!-- Implementing modalities field -->
 	<div class="form-group panel-success">
 		<div class="panel-heading">
 			<label class="control-label">
-				<span class="glyphicon glyphicon-leaf"></span> Implementing modalities
+				<span class="glyphicon glyphicon-leaf"></span> Implementisg modalities
 			</label>
 		</div>
 		<div class="panel-body">
@@ -326,24 +302,7 @@
 					</tbody>
 				</table>
 			</div>
-			<div class="panel-body">
-				<div class="table-responsive">
-					<table class="table table-striped">
-						<thead>
-						<tr>
-							<th>Modality</th>
-							<th>Action</th>
-						</tr>
-						</thead>
-						<tbody>
-						<tr ng-repeat="modality in impModalities">
-							<td>{{modality}}</td>
-							<td><button type="button" class="btn btn-warning" ng-click="modifyImpModality(modality)"><span class="glyphicon glyphicon-edit"></span>Edit</button></td>
-							<td><button type="button" class="btn btn-danger" ng-click="deleteImpModality(modality)"><span class="glyphicon glyphicon-remove"></span> Delete</button></td>
-						</tr>
-						</tbody>
-					</table>
-				</div>
+
 				<div data-ng-show="!showImplementing">
 					<textarea class="form-control" rows="5" cols="3" ng-model="form.addImpModality" ></textarea>
 					<div ng-show="errorImpModality"><font color="red"><em>You must add an implementing modality</em></font></div>

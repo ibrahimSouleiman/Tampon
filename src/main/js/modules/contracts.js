@@ -184,8 +184,6 @@
                  $scope.bodyImplementing,
                  { text:" 3.3 . The termination modalities", style:'title' },
                  $scope.bodyTermination,
-
-                { text:" Done on :"+1+"             at:"+3 },
                 { text: function(){return "Doesnt work"}},
                 { text:" 4 . signatory of the contract ", style:'title' },
 
@@ -356,7 +354,7 @@
                 			$scope.partiesList = contract.partiesNames; //partiesNames is a hashmap
                             $scope.impModalities = contract.implementing;
                 			$scope.termModalities = contract.termination;
-
+                            console.log("STR="+$scope.exchangesStr);
                             // this will display the user name - their number
                 			$scope.partiesList.forEach(function(party) {
                 			$scope.parties.push(party.value + " - " + party.key);
@@ -461,7 +459,10 @@
           $scope.partiesList.forEach(function(party) {
             partiesId.push(party.key);
           });
+          console.log("")
              buildExchangesStr($scope);
+                    console.log("Ex="+$scope.exchangesStr.length+".."+$scope.exchangesStr);
+                    console.log("Im="+$scope.impModalities.length);
 
       	  if ($scope.form.addParty != null && $scope.form.addParty.length>2){updateParties($scope);}
           if ($scope.form.addImpModality != null && $scope.form.addImpModality.length>2){updateImpModalities($scope);}
@@ -471,12 +472,10 @@
                   		        contract.title = $scope.form.title;
             					contract.parties = partiesId;
             					contract.exchange = $scope.exchangesStr;
-
-
-            					contract.implementing = $scope.impModalities;
+                                contract.implementing = $scope.impModalities;
             					contract.termination = $scope.termModalities;
+                    console.log("Im2="+$scope.impModalities.length);
 
-                        // +" exchanges="+contract.exchange+" implent="+contract.implementing+" termination="+contract.termination
                   		contract.$update(function() {
                   			$state.go('viewContracts');
 
@@ -625,7 +624,6 @@
 					buildExchangesStr($scope);
 
 
-
 	    		if ($scope.form.addParty != null && $scope.form.addParty.length>2){updateParties($scope);}
 	    		if ($scope.form.addTermModality != null && $scope.form.addTermModality.length>2){updateTermModalities($scope);}
 	            if ($scope.form.addImpModality != null && $scope.form.addImpModality.length>2){updateImpModalities($scope);}
@@ -763,7 +761,7 @@ function validateTermModality($scope){
 }
 
 function validateExchangeModality($scope,exchange){
-
+console.log("Validation");
 	endModifExchMod($scope, true);
 
 
@@ -787,12 +785,15 @@ function endModifExchMod ($scope, toValidate){
 			$scope.exchanges[index] = resultat;
 
 		}
-
+console.log("Index="+index+" Resultat="+resultat[index]);
 	}
 
 	resetExchange($scope);
 	$scope.modifExchMod.toModify = false;
-	$sscope.showExchange=true,
+
+	if($scope.action == 'edit')
+	$scope.showExchange=true;
+
 	$scope.modifExchMod.index = -1;
 
 }
@@ -814,7 +815,9 @@ function endModifImpMod ($scope, toValidate){
 	}
 	$scope.form.addImpModality = "";
 	$scope.modifImpMod.toModify = false;
-	$sscope.showImplementing=true,
+	if($scope.action == 'edit')
+	$scope.showImplementing=true,
+
 	$scope.modifImpMod.index = -1;
 }
 function endModifTermMod ($scope, toValidate){
@@ -829,7 +832,10 @@ function endModifTermMod ($scope, toValidate){
 	}
 	$scope.form.addTermModality = "";
 	$scope.modifTermMod.toModify = false;
-	$sscope.showTermincation=true,
+
+	if($scope.action == 'edit')
+	$scope.showTermincation=true,
+
 	$scope.modifTermMod.index = -1;
 
 }
@@ -878,7 +884,9 @@ function updateParties($scope){
 		$scope.parties.push(newParty.value + ' - ' + newParty.key);
 		console.log("Parties"+$scope.parties);
 		$scope.form.addParty = "";
+		if($scope.action == 'edit'){
 		$scope.showParty=true;
+             }
 
 ///	}
 }
@@ -889,7 +897,9 @@ function updateTermModalities($scope){
 	if (index == -1){
 		$scope.termModalities.push(mod);
 		$scope.form.addTermModality = "";
+		if($scope.action == 'edit'){
 		$scope.showTermincation=true;
+		}
 	}
 
 
@@ -902,7 +912,9 @@ function updateImpModalities($scope){
 	if (index == -1){
 		$scope.impModalities.push(mod);
 		$scope.form.addImpModality = "";
+		if($scope.action == 'edit'){
 		$scope.showImplementing=true;
+		}
 	}
 }
 
@@ -916,8 +928,11 @@ function updateExchanges($scope){
     $scope.resultat=getChoice($scope,$scope.form.addFrom,$scope.form.addWhat,$scope.form.addTo, $scope.form.addHow);
 	$scope.exchanges.push($scope.resultat);
     resetExchange($scope);
+	console.log("UPdate"+$scope.resultat);
 	console.log($scope.exchanges);
+	if($scope.action == 'edit'){
 	$scope.showExchange=true;
+	}
 }
 
 
@@ -941,7 +956,7 @@ $scope.howchoice={from : from,
                       	sendhowfrom:$scope.form.deliverySendmodefrom,
                    		details : $scope.form.addDetails};
 
-console.log($scope.form.addHow+" "+$scope.howchoice);
+console.log($scope.form.addHow+"////////"+$scope.howchoice[0]);
 
 }else if(choice.length == 10)
 {
@@ -953,7 +968,7 @@ $scope.howchoice={from : from,
                    	place:$scope.form.inpersonPlace,
                    	when:$scope.form.inpersonWhen,
                    	details : $scope.form.addDetails};
-console.log($scope.form.addHow+" "+$scope.howchoice);
+console.log($scope.form.addHow+"/////"+$scope.howchoice[0]);
 
 }else if(choice.length == 15) {
 
@@ -967,7 +982,7 @@ $scope.howchoice={from : from,
                         whenfrom:$scope.form.electronicallyWhenfrom,
                    	    details : $scope.form.addDetails};
 
-console.log($scope.form.addHow+" "+$scope.howchoice);
+console.log($scope.form.addHow+"//////"+$scope.howchoice[0]);
 
 }
 return $scope.howchoice;
@@ -1117,7 +1132,6 @@ $scope.detailhow=true;
 } else if(choice.length ==15)
 {
 
-console.log("3 IF= "+$scope.choice);
 $scope.delivery=false;
 $scope.inperson=false;
 $scope.electronically=true;
@@ -1153,7 +1167,7 @@ if(choice!=null && choice.length == 9){
                       	sendhowfrom:splitedEx[7],
                    		details : splitedEx[8]};
 
-console.log(".... "+ $scope.howchoice);
+console.log(".9... "+ $scope.howchoice);
 
 }else if(choice!=null && choice.length == 10)
 {
@@ -1165,12 +1179,12 @@ console.log(".... "+ $scope.howchoice);
                   place:splitedEx[4],
                   when:splitedEx[5],
                   details : splitedEx[6]};
-
+console.log(".10... "+ $scope.howchoice);
 
 }else if(choice!=null && choice.length == 15) {
 
 
-howchoice={from : splitedEx[0],
+$scope.howchoice={from : splitedEx[0],
                   what :splitedEx[1],
                   to : splitedEx[2],
                    how :choice,
@@ -1180,7 +1194,7 @@ howchoice={from : splitedEx[0],
                    details : splitedEx[7]};
 
 
-
+console.log(".15... "+ $scope.howchoice);
 }
 return  $scope.howchoice;
 
@@ -1190,15 +1204,18 @@ function getDataChoiceHoxExchange(ex,choice)
 var datachoice = " ";
 console.log("Data Choice="+choice+" "+ex);
 if(choice!=null && choice.length == 9){
-datachoice=ex.userfrom+"#"+ex.userto+"#"+ex.user+"#"+ex.datefrom+"#"+ex.sendhowfrom;
-console.log("1="+datachoice);
+datachoice=ex.userfrom+"#"+ex.userto+"#"+ex.datefrom+"#"+ex.sendhowfrom;
+
+console.log("11111111111="+datachoice);
+
 }else if(choice!=null && choice.length==10){
 datachoice=ex.place+"#"+ex.when;
-console.log("2="+datachoice);
+
+console.log("22222222="+datachoice);
 }else if( choice!=null && choice.length == 15)
 {
 datachoice=ex.emailfrom+"#"+ex.emailto+"#"+ex.whenfrom;
-console.log("3="+datachoice);
+console.log("3333333333333="+datachoice);
 }
 return datachoice;
 }
@@ -1208,10 +1225,10 @@ function buildExchanges($scope){
 
 console.log("Dans Build="+$scope.exchangesStr.length+ " "+$scope.exchangesStr);
 	$scope.exchangesStr.forEach(function(ex){
-		var splitedEx = ex.split('#'); // the separator used between parameters is #
-        var resul=getdataExchange($scope,ex);
 
-		$scope.exchanges.push(resul);
+        var result=getdataExchange($scope,ex);
+
+		$scope.exchanges.push(result);
 
 	});
 
@@ -1224,42 +1241,20 @@ console.log("Dans BuildStr="+$scope.exchanges.length+ " "+$scope.exchanges);
 	$scope.exchanges.forEach(function(ex){
 	var dataChoice=getDataChoiceHoxExchange(ex,ex.how);
 
-	var data=ex.from + "#" +ex.what + "#" +ex.to + "#" +ex.how + "#" +dataChoice+"#"+ex.details + "#";
+	var data=ex.from + "#" +ex.what + "#" +ex.to + "#" +ex.how + "#" +dataChoice+"#"+ex.details;
 	$scope.exchangesStr.push(data);
-
+    console.log("DataBuild="+data);
 
 	});
 }
 /************************Fontion to use to Generate Pdf Contrat*****************************************************/
 function buildTableBody(data) {
-
     var body = [];
     var index= 1;
 
 
     data.forEach(function(row) {
         var dataRow = [];
-        console.log("First="+row.from);
-
-
-        dataRow.push({text : "Exchange:"+index,style:'name' });
-        dataRow.push({text : "From :"+row.from});
-        dataRow.push({text : "To :"+row.to});
-        dataRow.push({text : "How :"+row.how});
-
-        var choice= row.how;
-        if(choice.length == 9)
-        {
-            //delevery
-            dataRow.push({text : "Adresse user from :"+row.userfrom});
-            dataRow.push({text : "Adresse user to :"+row.userto});
-            dataRow.push({text : "When  :"+row.datefrom});
-            dataRow.push({text : "Send How :"+row.sendhowfrom});
-            dataRow.push({text : "details :"+row.details});
-
-        }else if(choice.length == 10)
-        {
-            //in person
 
         dataRow.push({text : "Exchange:"+index,style:'name' });
         dataRow.push({text : "From :"+row.from});
@@ -1283,7 +1278,7 @@ function buildTableBody(data) {
        dataRow.push({text : "Place :"+row.place});
        dataRow.push({text : "When :"+row.when});
       dataRow.push({text : "Details :"+row.details});
-      } else if(choice!=null && choice.length ==15)
+      } else if(choice!=null && choice.length == 15)
       {
       // electronically
 
@@ -1295,7 +1290,6 @@ function buildTableBody(data) {
          dataRow.push({text : "Details :"+row.whenfrom});
       }
 
-
         body.push(dataRow);
         index = index + 1;
 
@@ -1303,8 +1297,6 @@ function buildTableBody(data) {
 
     return body;
 }
-
-
 
 
 
