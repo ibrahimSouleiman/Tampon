@@ -3,26 +3,27 @@
     module.config(function($stateProvider, $urlRouterProvider) {
         $urlRouterProvider.otherwise("/"); //if someone messes up the url, go back home
         $stateProvider
-	        .state('viewContracts', {
-	            url: '/contracts',
-	            templateUrl: 'contracts/contracts.html',
-	            controller: 'viewContracts'
-	        })
-	        .state('viewContract', {
-	            url: '/contracts/view/:id',
-	            templateUrl: 'contracts/contract.html',
-	            controller: 'viewContract'
-	        })
-		    .state('editContract', {
-		        url: '/contracts/edit/:id',
-		        templateUrl: 'contracts/contract-form.html',
-		        controller: 'editContract'
-		    })
-		    .state('addContract', {
-		        url: '/contracts/add',
-		        templateUrl: 'contracts/contract-form.html',
-		        controller: 'addContract'
-		    });
+
+            .state('viewContracts', {
+                url: '/contracts',
+                templateUrl: 'contracts/contracts.html',
+                controller: 'viewContracts'
+            })
+            .state('viewContract', {
+                url: '/contracts/view/:id',
+                templateUrl: 'contracts/contract.html',
+                controller: 'viewContract'
+            })
+            .state('editContract', {
+                url: '/contracts/edit/:id',
+                templateUrl: 'contracts/contract-form.html',
+                controller: 'editContract'
+            })
+            .state('addContract', {
+                url: '/contracts/add',
+                templateUrl: 'contracts/contract-form.html',
+                controller: 'addContract'
+            });
 
     });
 
@@ -34,9 +35,32 @@
     	//TODO: do some of this with configHeader:
     	$scope.app.configHeader({back: false, title: 'Contracts', contextButton: 'addContract'});
 
-    	$scope.contracts = [];
-    	$scope.contracts = Contract.query(); //Fetch contracts, thanks to restApi.js
-    	//The bindings with contracts.html will display them automatically
+
+        //TODO: do some of this with configHeader:
+        $scope.app.configHeader({back: false, title: 'Contracts', contextButton: 'addContract'});
+
+        $scope.contracts = [];
+        $scope.contracts = Contract.query(); //Fetch contracts, thanks to restApi.js
+        //The bindings with contracts.html will display them automatically
+        $scope.checkClass = function ($status) {
+            switch ($status) {
+                case 'NOWHERE':
+                    return "panel-warning";
+                case 'SIGNING':
+                    return "panel-default";
+                case 'FINALIZED':
+                    return "panel-success";
+                case 'CANCELLED':
+                    return "panel-danger";
+                case 'RESOLVING':
+                    return "panel-default";
+                case 'MODIFIED':
+                    return "panel-info";
+                default:
+                    return "panel-warning";
+            }
+
+        };
     });
 
     // 'View contract' state controller function
@@ -109,6 +133,7 @@
                          	$scope.Termination.forEach(function(ex){
                                              $scope.bodyTermination.push(ex);
                          		    	});
+
 
 
 
@@ -468,11 +493,12 @@
     	};
 			/*******************************************************************/
 
+
     });
 
     module.controller('addContract', function($rootScope, $scope, Contract, Item, $state, $http,User){
 
-      //this function manages the disconnection because if the session expresses the return to the connection page
+        //this function manages the disconnection because if the session expresses the return to the connection page
         isUserConnected($http, $rootScope, $scope, $state, User);
 
     	$scope.app.configHeader({back: true, title: 'Add contracts'}); //Add Title
@@ -619,28 +645,29 @@
 					});
 				}
     	};
+
     });
 
 
-  //directives define new html tags or attributes; think of them as macros.
-  module.directive('contract', function() {
-    return {
-      restrict: 'E',
-      templateUrl: 'contracts/one-contract.html' //TODO: rename this to item-one
-    };
-  });
-  module.directive('party', function() {
-    return {
-      restrict: 'E',
-      templateUrl: 'contracts/party.html'
-    };
-  });
-  module.directive('exchange', function() {
-	    return {
-	      restrict: 'E',
-	      templateUrl: 'contracts/exchange.html'
-	    };
-	  });
+    //directives define new html tags or attributes; think of them as macros.
+    module.directive('contract', function() {
+        return {
+            restrict: 'E',
+            templateUrl: 'contracts/one-contract.html' //TODO: rename this to item-one
+        };
+    });
+    module.directive('party', function() {
+        return {
+            restrict: 'E',
+            templateUrl: 'contracts/party.html'
+        };
+    });
+    module.directive('exchange', function() {
+        return {
+            restrict: 'E',
+            templateUrl: 'contracts/exchange.html'
+        };
+    });
 
 })();
 
@@ -661,6 +688,7 @@ $scope.choice=$scope.form.addHow;
 //getChoiceExchange($scope,$scope.choice);
 updatehow($scope,$scope.choice);
 updateAllchoice($scope,e,$scope.choice)
+
 
 }
 
@@ -702,37 +730,42 @@ $scope.form.electronicallyWhento = e.whento;
 
 }
 
+
 }
 
 function modifyImpModality($scope, m){
-	$scope.form.addImpModality = m;
-	$scope.modifImpMod.toModify = true;
-	$scope.modifImpMod.index = $scope.impModalities.indexOf(m);
+    $scope.form.addImpModality = m;
+    $scope.modifImpMod.toModify = true;
+    $scope.modifImpMod.index = $scope.impModalities.indexOf(m);
 }
 function modifyTermModality($scope, m){
-	$scope.form.addTermModality = m;
-	$scope.modifTermMod.toModify = true;
-	$scope.modifTermMod.index = $scope.termModalities.indexOf(m);
+    $scope.form.addTermModality = m;
+    $scope.modifTermMod.toModify = true;
+    $scope.modifTermMod.index = $scope.termModalities.indexOf(m);
+}
+function cancelExchModality($scope){
+    endModifExchMod($scope, false);
 }
 function cancelExchModality($scope){
   endModifExchMod($scope, false);
 }
 function cancelImpModality($scope){
-  endModifImpMod($scope, false);
+    endModifImpMod($scope, false);
 }
 function cancelTermModality($scope){
-  endModifTermMod($scope, false);
+    endModifTermMod($scope, false);
 }
 function validateImpModality($scope){
-	endModifImpMod($scope, true);
+    endModifImpMod($scope, true);
 }
 function validateTermModality($scope){
-	endModifTermMod($scope, true);
+    endModifTermMod($scope, true);
 }
 
 function validateExchangeModality($scope,exchange){
 
 	endModifExchMod($scope, true);
+
 
 
 }
@@ -761,6 +794,7 @@ function endModifExchMod ($scope, toValidate){
 	$scope.modifExchMod.toModify = false;
 	$sscope.showExchange=true,
 	$scope.modifExchMod.index = -1;
+
 }
 
 
@@ -797,21 +831,22 @@ function endModifTermMod ($scope, toValidate){
 	$scope.modifTermMod.toModify = false;
 	$sscope.showTermincation=true,
 	$scope.modifTermMod.index = -1;
+
 }
 /*****************************************************************************/
 
 /****** Functions to handle the deleting of a clause : party, exchange, implementing modality, termination modality ******/
 function deleteImpModality($scope, m){
-	var index = $scope.impModalities.indexOf(m);
-	if (index > -1){
-		$scope.impModalities.splice(index, 1);
-	}
+    var index = $scope.impModalities.indexOf(m);
+    if (index > -1){
+        $scope.impModalities.splice(index, 1);
+    }
 }
 function deleteTermModality($scope, c){
-	var index = $scope.termModalities.indexOf(c);
-	if (index > -1){
-		$scope.termModalities.splice(index, 1);
-	}
+    var index = $scope.termModalities.indexOf(c);
+    if (index > -1){
+        $scope.termModalities.splice(index, 1);
+    }
 }
 function deleteExchange($scope, e){
 	var index = $scope.exchanges.indexOf(e);
@@ -829,6 +864,7 @@ function deleteParty($scope, p){
         $scope.parties.splice(index, 1);
 
 	}
+
 }
 /*****************************************************************************/
 
@@ -843,6 +879,7 @@ function updateParties($scope){
 		console.log("Parties"+$scope.parties);
 		$scope.form.addParty = "";
 		$scope.showParty=true;
+
 ///	}
 }
 
@@ -964,49 +1001,91 @@ $scope.electronically=false;
 $scope.detailhow=false;
 $scope.delivery=false;
 
+
 }
 /*****************************************************************************/
 
 /****** Function to get all the users from the database ******/
 function getUsers($http, $scope){
-	$http.get(RESTAPISERVER + "/api/users/").then(
-		function(response){
-			var allUsers = response.data; // users in the database
-			$scope.usersList = [];
-			for(i = 0; i < allUsers.length; i++){
-				if (allUsers[i].nick != ""){
-					$scope.usersList[i] = { 'name' : allUsers[i].nick
-							, 'id' : allUsers[i].id };
-					$scope.users[i] = allUsers[i].nick + ' - ' + allUsers[i].id;
-				}
-			}
-		}
-	);
+    $http.get(RESTAPISERVER + "/api/users/").then(
+        function(response){
+            var allUsers = response.data; // users in the database
+            $scope.usersList = [];
+            for(i = 0; i < allUsers.length; i++){
+                if (allUsers[i].nick != ""){
+                    $scope.usersList[i] = { 'name' : allUsers[i].nick
+                        , 'id' : allUsers[i].id };
+                    $scope.users[i] = allUsers[i].nick + ' - ' + allUsers[i].id;
+                }
+            }
+        }
+    );
 }
 
 /****** Function to update the items according to the user selected in the From field ******/
 function updateItems($http, $scope){
-	$scope.items = []; // empty the items to then populate with only the new "From" user items
-	$scope.itemsList = [];
-	if ($scope.form.addFrom != undefined && $scope.form.addFrom != "")
-	{
-		var currentFromUser = $scope.form.addFrom.split(" - ")[1];
-		if (currentFromUser != undefined && currentFromUser != "")
-		{
-			$http.get(RESTAPISERVER + "/api/items/all").then(
-				function(response){
-					var allItems = response.data;
-					$scope.itemsList = [];
-					for(i = 0; i < allItems.length; i++){
-						if (allItems[i].nick != "" & allItems[i].userid == currentFromUser){
-							$scope.itemsList[i] = { 'name' : allItems[i].title, 'id' : allItems[i].id};
-							$scope.items[i] = allItems[i].title + ' - ' + allItems[i].id;
-						}
-					}
-				}
-			);
-		}
-	}
+    $scope.items = []; // empty the items to then populate with only the new "From" user items
+    $scope.itemsList = [];
+    if ($scope.form.addFrom != undefined && $scope.form.addFrom != "")
+    {
+        var currentFromUser = $scope.form.addFrom.split(" - ")[1];
+        if (currentFromUser != undefined && currentFromUser != "")
+        {
+            $http.get(RESTAPISERVER + "/api/items/all").then(
+                function(response){
+                    var allItems = response.data;
+                    $scope.itemsList = [];
+                    for(i = 0; i < allItems.length; i++){
+                        if (allItems[i].nick != "" & allItems[i].userid == currentFromUser){
+                            $scope.itemsList[i] = { 'name' : allItems[i].title, 'id' : allItems[i].id};
+                            $scope.items[i] = allItems[i].title + ' - ' + allItems[i].id;
+                        }
+                    }
+                }
+            );
+        }
+    }
+}
+
+
+/****** Function to update the items according to the user selected in the From field ******/
+function updatehow($scope,choice){
+
+
+    var dt="delivery";
+
+    console.log("Choix "+choice.length+" R="+(choice.length == 9));
+    if(choice.length == 9)
+    {
+        console.log("1 IF= "+$scope.choice);
+
+        $scope.inperson=false;
+        $scope.electronically=false;
+        $scope.detailhow=true;
+        $scope.delivery=true;
+
+    }else if(choice.length == 10)
+    {
+
+        console.log("2 IF= "+$scope.choice);
+        $scope.delivery=false;
+        $scope.electronically=false;
+        $scope.inperson=true;
+        $scope.detailhow=true;
+
+    } else if(choice.length ==15)
+    {
+
+        console.log("3 IF= "+$scope.choice);
+        $scope.delivery=false;
+        $scope.inperson=false;
+        $scope.electronically=true;
+        $scope.detailhow=true;
+
+    }
+
+
+
 }
 
 
@@ -1135,6 +1214,7 @@ console.log("Dans Build="+$scope.exchangesStr.length+ " "+$scope.exchangesStr);
 		$scope.exchanges.push(resul);
 
 	});
+
 }
 
 
@@ -1152,12 +1232,34 @@ console.log("Dans BuildStr="+$scope.exchanges.length+ " "+$scope.exchanges);
 }
 /************************Fontion to use to Generate Pdf Contrat*****************************************************/
 function buildTableBody(data) {
+
     var body = [];
     var index= 1;
 
 
     data.forEach(function(row) {
         var dataRow = [];
+        console.log("First="+row.from);
+
+
+        dataRow.push({text : "Exchange:"+index,style:'name' });
+        dataRow.push({text : "From :"+row.from});
+        dataRow.push({text : "To :"+row.to});
+        dataRow.push({text : "How :"+row.how});
+
+        var choice= row.how;
+        if(choice.length == 9)
+        {
+            //delevery
+            dataRow.push({text : "Adresse user from :"+row.userfrom});
+            dataRow.push({text : "Adresse user to :"+row.userto});
+            dataRow.push({text : "When  :"+row.datefrom});
+            dataRow.push({text : "Send How :"+row.sendhowfrom});
+            dataRow.push({text : "details :"+row.details});
+
+        }else if(choice.length == 10)
+        {
+            //in person
 
         dataRow.push({text : "Exchange:"+index,style:'name' });
         dataRow.push({text : "From :"+row.from});
@@ -1192,6 +1294,7 @@ function buildTableBody(data) {
          dataRow.push({text : "When :"+row.whenfrom});
          dataRow.push({text : "Details :"+row.whenfrom});
       }
+
 
         body.push(dataRow);
         index = index + 1;
@@ -1229,64 +1332,65 @@ $scope.showTermincation=false;
 }
 
 
+
 /*****************************************************************************/
 /****** Function to check whether the user fill out all the mandatory information about the contract ******/
 function checkClauses($scope){
 
-	var isOK = true;
+    var isOK = true;
 
-	// Contract name
-	if ($scope.form.title == null)
-	{
-		$scope.errorName = true;
-		isOK = false;
-	}
-	else
-	{
-		$scope.errorName = false;
-	}
-	// Parties
-	if ($scope.parties.length == 0)
-	{
-		$scope.errorParty = true;
-		isOK = false;
-	}
-	else
-	{
-		$scope.errorParty = false;
-	}
-	// Exchanges
-	if ($scope.exchanges.length == 0)
-	{
-		$scope.errorExchange = true;
-		isOK = false;
-	}
-	else
-	{
-		$scope.errorExchange = false;
-	}
-	// Implementing modalities
-	if ($scope.impModalities.length == 0)
-	{
-		$scope.errorImpModality = true;
-		isOK = false;
-	}
-	else
-	{
-		$scope.errorImpModality = false;
-	}
-	// Termination modalities
-	if ($scope.termModalities.length == 0)
-	{
-		$scope.errorTermModality = true;
-		isOK = false;
-	}
-	else
-	{
-		$scope.errorTermModality = false;
-	}
+    // Contract name
+    if ($scope.form.title == null)
+    {
+        $scope.errorName = true;
+        isOK = false;
+    }
+    else
+    {
+        $scope.errorName = false;
+    }
+    // Parties
+    if ($scope.parties.length == 0)
+    {
+        $scope.errorParty = true;
+        isOK = false;
+    }
+    else
+    {
+        $scope.errorParty = false;
+    }
+    // Exchanges
+    if ($scope.exchanges.length == 0)
+    {
+        $scope.errorExchange = true;
+        isOK = false;
+    }
+    else
+    {
+        $scope.errorExchange = false;
+    }
+    // Implementing modalities
+    if ($scope.impModalities.length == 0)
+    {
+        $scope.errorImpModality = true;
+        isOK = false;
+    }
+    else
+    {
+        $scope.errorImpModality = false;
+    }
+    // Termination modalities
+    if ($scope.termModalities.length == 0)
+    {
+        $scope.errorTermModality = true;
+        isOK = false;
+    }
+    else
+    {
+        $scope.errorTermModality = false;
+    }
 
-	return isOK;
+    return isOK;
 }
 /************************************************************/
 function checkExchanges($scope){
@@ -1346,3 +1450,4 @@ function checkExchanges($scope){
 
 	    return isOK;
 	}
+
